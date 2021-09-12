@@ -1,6 +1,8 @@
+import { DecimalPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConfirmDialogComponent } from 'src/app/_common/confirm-dialog/confirm-dialog.component';
 import { Member } from 'src/app/_models';
 import { LootApiService } from 'src/app/_services/loot-api.service';
 import { TeamApiService } from 'src/app/_services/team-api.service';
@@ -14,6 +16,7 @@ import { DialogViewAllComponent } from './dialog-view-all/dialog-view-all.compon
 export class DistributableComponent implements OnInit {
 
   team: Member[] = this.teamApi.team;
+  deletingId: string = '';
 
   constructor(
     private teamApi: TeamApiService,
@@ -23,6 +26,15 @@ export class DistributableComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+  }
+
+  hasAnyDistributables(): boolean {
+    for (let member of this.team) {
+      if (member.distributableLoots.length > 0) {
+        return true;
+      }
+    }
+    return false;
   }
 
   getTotalDistributableOf(member: Member): number {
@@ -35,27 +47,28 @@ export class DistributableComponent implements OnInit {
   }
 
   claim(member: Member): void {
-    this._snackBar.open("This feature is still a work in progress.", "Dismiss", { duration: 5000 });
-    // const distributable = this.lootService.getDistributableOf(member);
-    // if (!distributable || distributable?.loots.length === 0) {
-    //   this._snackBar.open("Nothing to claim.", "Close", { duration: 5000 });
-    //   return;
-    // }
-    
-    // const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-    //   maxWidth: "400px",
-    //   data: { 
-    //     title: `Confirm claim for ${member.name}`, 
-    //     message: `Has ${member.name} received ${new DecimalPipe('en-SG').transform(this.getTotalDistributableOf(member), '1.0')} mesos?`
-    //   }
-    // });
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: "400px",
+      data: { 
+        title: `Confirm claim for ${member.name}`, 
+        message: `Has ${member.name} received ${new DecimalPipe('en-SG').transform(this.getTotalDistributableOf(member), '1.0')} mesos?`
+      }
+    });
 
-    // dialogRef.afterClosed().subscribe(dialogResult => {
-    //   if (dialogResult) {
-    //     this.lootService.claimDistributable(member);
-    //     this._snackBar.open("Claim successfully updated.", "Close", { duration: 5000 });
-    //   }
-    // });
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult) {
+
+        this.deletingId = member._id;
+        this.lootApi.claimLoot(member).subscribe(
+          () => {
+            this.deletingId = '';
+          },
+          err => {
+            this.deletingId = '';
+          }
+        )
+      }
+    });
   }
 
   viewDetails(member: Member): void {

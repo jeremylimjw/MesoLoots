@@ -28,6 +28,29 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     margin: -10px 0 10px 10px;
 }
 
+
+
+.deleting {
+    pointer-events: none;
+    user-select: none;
+}
+
+.deleting img, .deleting span {
+    animation: fading 0.8s ease-in infinite alternate;
+}
+
+@keyframes fading {
+    0% {
+        opacity: 0.8;
+    }
+
+    100% {
+        opacity: 0.1;
+    }
+}
+
+
+
 /** Tooltip */
 .tooltip {
     position: relative;

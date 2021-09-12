@@ -1,6 +1,6 @@
 <div class="container">
 
-    <div class="card" *ngFor="let member of team" [ngStyle]="{ 'opacity' : member._id === deletingId ? '0.5' : '1' }">
+    <div class="card" *ngFor="let member of team" [ngClass]="{ 'deleting' : member._id === deletingId }">
 
         <img [src]="getJob(member).imageUrl" width="250" height="250">
 
