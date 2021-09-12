@@ -20,9 +20,9 @@ import { PageApiService } from '../_services/page-api.service';
     </ng-container>`,
   styles: [`
     .container { 
-      padding-top: 200px;
+      padding-top: 180px;
       background-color: #E4E4E4;
-      min-height: calc(100% - 200px); 
+      min-height: calc(100% - 180px); 
     }`
   ],
 })

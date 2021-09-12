@@ -34,18 +34,19 @@ import { DashboardComponent } from './main/dashboard/dashboard.component';
 import { AnalyticsComponent } from './main/analytics/analytics.component';
 import { TeamComponent } from './main/team/team.component';
 import { LootTableComponent } from './main/dashboard/loot-table/loot-table.component';
-import { DialogDetailsComponent } from './main/dashboard/loot-table/dialog-details/dialog-details.component';
+import { DialogDetailsComponent } from './main/dashboard/loot-table/dialog-loot-details/dialog-loot-details.component';
 import { DateAgoPipe } from './_pipes/date-ago.pipe';
-import { DialogAddComponent } from './main/dashboard/loot-table/dialog-add/dialog-add.component';
+import { DialogAddComponent } from './main/dashboard/loot-table/dialog-loot-add/dialog-loot-add.component';
 import { MetricPipe } from './_pipes/metric.pipe';
 import { DistributablePipe } from './_pipes/distributable.pipe';
 import { DistributableComponent } from './main/dashboard/distributable/distributable.component';
-import { ConfirmDialogComponent } from './_common/confirm-dialog/confirm-dialog.component';
-import { AddDialogComponent } from './main/team/add-dialog/add-dialog.component';
-import { DialogViewAllComponent } from './main/dashboard/distributable/dialog-view-all/dialog-view-all.component';
+import { ConfirmDialogComponent } from './_common/dialog-confirm/dialog-confirm.component';
+import { DialogAddMemberComponent } from './main/team/dialog-add-member/dialog-add-member.component';
+import { DialogViewAllComponent } from './main/dashboard/distributable/dialog-distributable-details/dialog-distributable-details.component';
 import { MainComponent } from './main/main.component';
 import { AutoCompleteComponent } from './_common/auto-complete/auto-complete.component';
 import { LandingPageComponent } from './main/landing-page/landing-page.component';
+import { DialogAddPageComponent } from './main/landing-page/dialog-add-page/dialog-add-page.component';
 
 @NgModule({
   declarations: [
@@ -62,11 +63,12 @@ import { LandingPageComponent } from './main/landing-page/landing-page.component
     DistributablePipe,
     DistributableComponent,
     ConfirmDialogComponent,
-    AddDialogComponent,
+    DialogAddMemberComponent,
     DialogViewAllComponent,
     MainComponent,
     AutoCompleteComponent,
-    LandingPageComponent
+    LandingPageComponent,
+    DialogAddPageComponent
   ],
   imports: [
     BrowserModule,

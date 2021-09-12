@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../_common/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '../../_common/dialog-confirm/dialog-confirm.component';
 import { Job, Member } from '../../_models';
 import { jobs } from '../../_db/job';
 import { TeamApiService } from '../../_services/team-api.service';
-import { AddDialogComponent } from './add-dialog/add-dialog.component';
-import { PageApiService } from '../../_services/page-api.service';
+import { DialogAddMemberComponent } from './dialog-add-member/dialog-add-member.component';
 
 @Component({
   selector: 'app-team',
@@ -50,7 +49,7 @@ export class TeamComponent implements OnInit {
 
   /** Open add new member dialog. */
   openAddDialog(): void {
-    this.dialog.open(AddDialogComponent, { width: '300px', data: this.team });
+    this.dialog.open(DialogAddMemberComponent, { width: '300px', data: this.team });
   }
 
   getJob(member: Member): Job {

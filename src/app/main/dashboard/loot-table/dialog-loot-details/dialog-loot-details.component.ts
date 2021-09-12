@@ -9,9 +9,9 @@ import { LootApiService, PostSellBody } from 'src/app/_services/loot-api.service
 import { TeamApiService } from 'src/app/_services/team-api.service';
 
 @Component({
-  selector: 'app-dialog-details',
-  templateUrl: './dialog-details.component.html',
-  styleUrls: ['./dialog-details.component.css']
+  selector: 'app-dialog-loot-details',
+  templateUrl: './dialog-loot-details.component.html',
+  styleUrls: ['./dialog-loot-details.component.css']
 })
 export class DialogDetailsComponent implements OnInit {
 
@@ -54,7 +54,7 @@ export class DialogDetailsComponent implements OnInit {
 
     const soldPrice: number = new MetricPipe().transform(this.form.controls.soldPrice.value);
 
-    if (!soldPrice) {
+    if (!soldPrice || soldPrice <= 0) {
       return;
     }
 

@@ -121,7 +121,7 @@ export class LootApiService {
             member.claimedLoots = member.claimedLoots.concat(member.distributableLoots);
             member.distributableLoots = [];
             
-            this.snackBar.open(`${member.name} loots has been marked as distributed.`);
+            this.snackBar.open(`${member.name} loots has been distributed.`);
             observer.next();
             observer.complete();
           },

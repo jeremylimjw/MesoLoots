@@ -1,56 +1,23 @@
 <div class="container">
 
-    <form [formGroup]="form" (ngSubmit)="submitForm()" #myForm="ngForm">
+    <div class="logo">
+        <div>
+            <img src="./assets/logo.png">
+        </div>
+        <div class="name">MesoLoots</div>
+        <div class="slogan">A Free MapleStory Loot Tracker</div>
+    </div>
 
-        <mat-card class="card">
-            
-            <h2>Create a Page</h2>
-            
-            <!-- Text Input - Page Name -->
-            <mat-form-field appearance="outline" hintLabel="This will identify your URL">
-                <mat-label>Page Name</mat-label>
-                <input matInput type="text" formControlName="name" autocomplete="off">
-                <button matSuffix mat-icon-button aria-label="Clear" type="button" (click)="form.controls.name.setValue('')">
-                    <mat-icon>close</mat-icon>
-                </button>
-                <mat-error *ngIf="form.controls.name.errors?.required">
-                    Name is <strong>required</strong>.
-                </mat-error>
-                <mat-error *ngIf="form.controls.name.errors?.minlength || form.controls.name.errors?.maxlength">
-                    Name must between <strong>4</strong> and <strong>32</strong> characters.
-                </mat-error>
-                <mat-error *ngIf="form.controls.name.errors?.pattern">
-                    Name must not contain any space.
-                </mat-error>
-            </mat-form-field>
+    <div style="margin-bottom: 30px; text-align: center;">
+        <button mat-flat-button color="primary" (click)="openDialog()">Create a Page</button>
+    </div>
 
-            <mat-error class="custom-error" *ngIf="myForm.submitted && errorMessage">
-                {{ errorMessage }}
-            </mat-error>
+    <div class="preview-container">
+        <img src="./assets/preview.png">
+    </div>
 
-            <!-- Radio Button - Private -->
-            <div class="radio-group">
-                <mat-radio-group formControlName="private" color="primary">
-                    <mat-radio-button [value]="false">Anyone can edit</mat-radio-button>
-                    <mat-radio-button [value]="true">Only me</mat-radio-button>
-                </mat-radio-group>
-            </div>
-
-            <!-- Text Input - Password -->
-            <mat-form-field appearance="outline" hintLabel="Choose wisely, password cannot be changed in the future">
-                <mat-label>Access Password</mat-label>
-                <input matInput type="password" formControlName="password" autocomplete="on">
-                <mat-error *ngIf="form.controls.password.errors?.minlength || form.controls.password.errors?.maxlength">
-                    Password must between <strong>6</strong> and <strong>32</strong> characters.
-                </mat-error>
-            </mat-form-field>
-
-            <button mat-raised-button color="primary" type="submit" [disabled]="submitting">
-                {{ submitting ? 'Submitting..' : 'Create' }}
-            </button>
-
-        </mat-card>
-        
-    </form>
+    <div class="footer">
+        Created by <a href="https://github.com/jeremylimjw" target="_blank">https://github.com/jeremylimjw</a>. Powered by Heroku.
+    </div>
 
 </div>

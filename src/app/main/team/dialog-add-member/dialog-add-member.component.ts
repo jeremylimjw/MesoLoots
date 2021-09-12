@@ -7,11 +7,11 @@ import { PageApiService } from 'src/app/_services/page-api.service';
 import { TeamApiService } from 'src/app/_services/team-api.service';
 
 @Component({
-  selector: 'app-add-dialog',
-  templateUrl: './add-dialog.component.html',
-  styleUrls: ['./add-dialog.component.css']
+  selector: 'app-dialog-add-member',
+  templateUrl: './dialog-add-member.component.html',
+  styleUrls: ['./dialog-add-member.component.css']
 })
-export class AddDialogComponent implements OnInit {
+export class DialogAddMemberComponent implements OnInit {
 
   jobs: Job[] = jobs;
   jobGroups: any[] = transformToGroup(jobs);
@@ -25,7 +25,7 @@ export class AddDialogComponent implements OnInit {
   constructor(
     private pageApi: PageApiService,
     private teamApi: TeamApiService,
-    public dialogRef: MatDialogRef<AddDialogComponent>,
+    public dialogRef: MatDialogRef<DialogAddMemberComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Member[],) { }
 
   ngOnInit(): void {

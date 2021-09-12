@@ -21,7 +21,7 @@
                     <span class="link" (click)="viewDetails(member)">View Items</span>
                 </div>
 
-                <button class="claim-button" mat-flat-button color="primary" (click)="claim(member)" [disabled]="deletingId === member._id">MARK AS CLAIMED</button>
+                <button class="claim-button" mat-flat-button color="primary" (click)="confirmClaim(member)" [disabled]="deletingId === member._id">MARK AS CLAIMED</button>
                 
             </mat-card>
             

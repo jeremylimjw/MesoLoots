@@ -1,12 +1,11 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmDialogComponent } from 'src/app/_common/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from 'src/app/_common/dialog-confirm/dialog-confirm.component';
 import { Member } from 'src/app/_models';
 import { LootApiService } from 'src/app/_services/loot-api.service';
 import { TeamApiService } from 'src/app/_services/team-api.service';
-import { DialogViewAllComponent } from './dialog-view-all/dialog-view-all.component';
+import { DialogViewAllComponent } from './dialog-distributable-details/dialog-distributable-details.component';
 
 @Component({
   selector: 'app-distributable',
@@ -22,7 +21,6 @@ export class DistributableComponent implements OnInit {
     private teamApi: TeamApiService,
     private lootApi: LootApiService,
     public dialog: MatDialog,
-    private _snackBar: MatSnackBar,
     ) { }
 
   ngOnInit(): void {
@@ -41,38 +39,48 @@ export class DistributableComponent implements OnInit {
     const lootMapping = this.lootApi.lootMapping;
     let sum = 0;
     for (let lootMongoId of member.distributableLoots) {
-      sum += lootMapping[lootMongoId._id].distributable || 0;
+      const distributable = lootMapping[lootMongoId._id].distributable;
+      sum += distributable ? +distributable : 0;
     }
     return sum;
   }
 
-  claim(member: Member): void {
+  confirmClaim(member: Member): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "400px",
       data: { 
         title: `Confirm claim for ${member.name}`, 
-        message: `Has ${member.name} received ${new DecimalPipe('en-SG').transform(this.getTotalDistributableOf(member), '1.0')} mesos?`
+        message: `${member.name} received ${new DecimalPipe('en-SG').transform(this.getTotalDistributableOf(member), '1.0')} mesos?`
       }
     });
 
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult) {
-
-        this.deletingId = member._id;
-        this.lootApi.claimLoot(member).subscribe(
-          () => {
-            this.deletingId = '';
-          },
-          err => {
-            this.deletingId = '';
-          }
-        )
+        this.claim(member);
       }
     });
   }
 
   viewDetails(member: Member): void {
-    this.dialog.open(DialogViewAllComponent, { data: member, width: '600px' });
+    const dialogRef = this.dialog.open(DialogViewAllComponent, { data: member, width: '600px' });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult) {
+        this.claim(member);
+      }
+    });
+  }
+
+  private claim(member: Member): void {
+    this.deletingId = member._id;
+    this.lootApi.claimLoot(member).subscribe(
+      () => {
+        this.deletingId = '';
+      },
+      err => {
+        this.deletingId = '';
+      }
+    )
   }
 
 }

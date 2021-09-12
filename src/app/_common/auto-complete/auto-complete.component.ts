@@ -36,7 +36,7 @@ export class AutoCompleteComponent implements OnInit {
     /** Filter results when text input changes. */
     this.searchResults = this.textInput.valueChanges.pipe(
       startWith(''),
-      debounceTime(300),
+      debounceTime(100),
       map(inputValue => {
         /** inputValue will either be a plaintext when typing, or an object when user clicks on the option. */
         if (typeof inputValue === 'string' || inputValue instanceof String) {
