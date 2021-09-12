@@ -53,8 +53,17 @@
 
         <!-- Item List -->
         <mat-card *ngFor="let loot of form.controls.loots.value; let i=index" class="item-card">
-            <div><img [src]="items[loot.itemId].iconUrl"></div>
-            <span class="name">{{ items[loot.itemId].name }}</span>
+
+            <div class="img-with-text-container" style="width: 220px;">
+                <img [src]="items[loot.itemId].iconUrl">
+                <span class="text-overflow">{{ items[loot.itemId].name }}</span>
+            </div>
+
+            <div class="img-with-text-container">
+                <img [src]="bosses[loot.bossId].iconUrl">
+                <span>{{ bosses[loot.bossId].name }}</span>
+            </div>
+
 
             <div style="margin-left: auto;">
                 <span class="pax">{{ loot.party.length }} members</span>

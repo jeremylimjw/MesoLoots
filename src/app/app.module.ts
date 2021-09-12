@@ -17,7 +17,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -90,7 +89,6 @@ import { LandingPageComponent } from './main/landing-page/landing-page.component
     MatDialogModule,
     MatCheckboxModule,
     MatSlideToggleModule,
-    MatTooltipModule,
     ClipboardModule,
     MatExpansionModule,
     MatDatepickerModule,
