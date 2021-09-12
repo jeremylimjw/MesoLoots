@@ -1,0 +1,76 @@
+<h2 mat-dialog-title>
+    Add new loot(s)
+</h2>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()" #myForm="ngForm">
+
+    <mat-dialog-content>
+
+        <!-- Date - Dropped On -->
+        <mat-form-field appearance="outline">
+            <mat-label>Dropped On</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="droppedOn">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="form.controls.droppedOn.errors?.required">
+                Dropped on date is <strong>required</strong>.
+            </mat-error>
+        </mat-form-field>
+
+        <!-- Select - Boss Id -->
+        <mat-form-field appearance="outline">
+            <mat-label>Boss</mat-label>
+            <img matPrefix [src]="bosses[form.controls.bossId.value].iconUrl" style="margin-right: 5px;">
+            <mat-select formControlName="bossId" disableOptionCentering>
+                <mat-option *ngFor="let boss of bosses" [value]="boss.id">
+                    <div class="img-with-text-container"><img [src]="boss.iconUrl" width="25" height="25">{{boss.name}}</div>
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <!-- Checkbox - Member Ids -->
+        <ng-container *ngIf="team.length !== 0">
+            <p style="font-weight: 500;">Party ({{ getSelectedMembers().length }} pax):</p>
+            <div class="team-form" formGroupName="memberIds">
+                <p *ngFor="let member of team" style="padding-bottom: 5px;">
+                    <mat-checkbox color="primary" [formControlName]="member._id">{{ member.name }}</mat-checkbox>
+                </p>
+            </div>
+        </ng-container>
+
+        <!-- Autocomplete - Items -->
+        <app-auto-complete 
+            [_searchStore]="_autoCompleteItems" 
+            [getFilterKeyword]="autoCompleteGetFilterKeyword"
+            [getImgSrc]="autoCompleteGetImgSrc"
+            optionKey="name"
+            subtitleKey="type"
+            label="Add Item" 
+            placeholder="Item Name"
+            [style]="{ 'width': '100%' }"
+            (optionSelected)="addLoot($event)">
+        </app-auto-complete>
+
+        <!-- Item List -->
+        <mat-card *ngFor="let loot of form.controls.loots.value; let i=index" class="item-card">
+            <div><img [src]="items[loot.itemId].iconUrl"></div>
+            <span class="name">{{ items[loot.itemId].name }}</span>
+
+            <div style="margin-left: auto;">
+                <span class="pax">{{ loot.party.length }} members</span>
+                <button mat-icon-button type="button" (click)="removeLoot(i)" type="button"><mat-icon>clear</mat-icon></button>
+            </div>
+        </mat-card>
+
+        <mat-error class="custom-error" *ngIf="myForm.submitted && form.controls.loots.errors?.required">
+            Must have at least 1 loot.
+        </mat-error>
+
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-stroked-button mat-dialog-close type="button">Cancel</button>
+        <button mat-flat-button color="primary" type="submit" [disabled]="submitting">Submit</button>
+    </mat-dialog-actions>
+
+</form>

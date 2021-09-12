@@ -1,0 +1,29 @@
+.container {
+    height: 100%;
+    background-color: #E4E4E4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    width: 500px;
+}
+
+.mat-form-field {
+    display: block;
+    margin-bottom: 20px;
+}
+
+.radio-group {
+    margin-left: 10px;
+    margin-bottom: 20px;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+    margin-left: 16px;
+}
+
+button {
+    width: 100%;
+}

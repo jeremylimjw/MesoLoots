@@ -1,0 +1,24 @@
+<div class="container">
+
+    <div class="card" *ngFor="let member of team" [ngStyle]="{ 'opacity' : member._id === deletingId ? '0.5' : '1' }">
+
+        <img [src]="getJob(member).imageUrl" width="250" height="250">
+
+        <div class="name">
+            <span>{{ member.name }}</span>
+        </div>
+
+        <div class="delete">
+            <button mat-raised-button color="warn" (click)="deleteMember(member)" [disabled]="member._id === deletingId">
+                Remove
+            </button>
+        </div>
+
+    </div>
+
+    <div class="card add" (click)="openAddDialog()">
+        <span style="user-select: none;">+</span>
+    </div>
+    
+</div>
+

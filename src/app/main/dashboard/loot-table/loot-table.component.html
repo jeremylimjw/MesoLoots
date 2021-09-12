@@ -1,0 +1,122 @@
+<div class="container">
+    <div class="header">
+
+        <p>Loots</p>
+
+        <button class="add-button" mat-raised-button color="primary" (click)="openAddDialog()">Add</button>
+
+        <form class="filter-form" [formGroup]="filters">
+            <mat-form-field appearance="fill">
+                <mat-label>Boss Filter</mat-label>
+                <img matPrefix *ngIf="filters.controls.bossId.value !== ''" [src]="bosses[filters.controls.bossId.value]?.iconUrl" style="margin-right: 5px;">
+                <mat-select formControlName="bossId">
+                    <mat-option value="">All</mat-option>
+                    <mat-option *ngFor="let boss of bosses" [value]="boss.id">
+                        <div class="img-with-text-container"><img [src]="boss.iconUrl">{{boss.name}}</div>
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            
+            <app-auto-complete [style]="{ 'margin-right': '20px' }"
+                [textInput]="filters.controls.item"
+                [_searchStore]="_autoCompleteItems" 
+                [getFilterKeyword]="autoCompleteGetFilterKeyword"
+                [resetAfterClick]="false"
+                [getImgSrc]="autoCompleteGetImgSrc"
+                label="Item Filter" 
+                optionKey="name"
+                subtitleKey="type"
+                placeholder="Item Name"
+                (optionSelected)="autoCompleteOptionSelected($event)">
+            </app-auto-complete>
+            
+            <mat-form-field appearance="fill">
+                <mat-label>Status Filter</mat-label>
+                <mat-select formControlName="status">
+                    <mat-option value="">All</mat-option>
+                    <mat-option value="SOLD">Sold</mat-option>
+                    <mat-option value="NOT_SOLD">Not Sold</mat-option>
+                </mat-select>
+            </mat-form-field>
+            
+            <button class="reset-button" mat-raised-button color="warn" (click)="resetFilter()">Reset</button>
+        </form>
+    </div>
+
+    <div class="mat-elevation-z8">
+
+        <table mat-table matSort [dataSource]="dataSource">
+            
+            <ng-container matColumnDef="delete">
+                <th mat-header-cell *matHeaderCellDef width="70px"></th>
+                <td mat-cell *matCellDef="let row"> 
+                   <div *ngIf="row.showDeleteIcon">
+                       <button mat-mini-fab	color="warn" (click)="deleteItem($event, row)"><mat-icon class="delete-icon">delete</mat-icon></button>
+                    </div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="droppedOn">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header width="150px"> Dropped On </th>
+                <td mat-cell *matCellDef="let element"><span>{{ element.droppedOn | dateAgo : 'short' }}</span></td>
+            </ng-container>
+        
+            <ng-container matColumnDef="item">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Item </th>
+                <td mat-cell *matCellDef="let element">
+                    <div class="img-with-text-container">
+                        <img [src]="items[element.itemId].iconUrl" 
+                            (mouseenter)="element.showImageOnHover = true"
+                            (mouseleave)="element.showImageOnHover = false">
+                        <span>{{ items[element.itemId].name }}</span>
+                        <div class="showImageOnHover-container"><img *ngIf="element.showImageOnHover" [src]="items[element.itemId].imageUrl"></div>
+                    </div>
+                </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="boss">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header width="150px"> Boss </th>
+                <td mat-cell *matCellDef="let element"> 
+                    <div class="img-with-text-container">
+                        <img [src]="bosses[element.bossId].iconUrl" width="25" height="25">
+                        <span>{{ bosses[element.bossId].name }}</span>
+                    </div>
+                </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="soldPrice">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Sold Price </th>
+                <td mat-cell *matCellDef="let element"><span>{{ element.soldPrice != null ? (element.soldPrice | number: '1.0') : '-' }}</span></td>
+            </ng-container>
+    
+            <ng-container matColumnDef="distributable">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Distributable </th>
+                <td mat-cell *matCellDef="let element"><span>{{ element.distributable != null ? (element.distributable | number: '1.0' ) : '-' }}</span></td>
+            </ng-container>
+    
+            <ng-container matColumnDef="soldOn">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header width="150px"> Sold On </th>
+                <td mat-cell *matCellDef="let element"><span>{{ element.soldOn  != null ? (element.soldOn | dateAgo : 'short') : '-' }}</span></td>
+            </ng-container>
+        
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" 
+                [ngClass]="{ 'deleting-row': deletingLootId === row._id }"
+                (click)="openDetailsDialog(row)"
+                (mouseenter)="row.showDeleteIcon = true" 
+                (mouseleave)="row.showDeleteIcon = false">
+            </tr>
+
+            <tr class="mat-row" *matNoDataRow><td class="mat-cell" colspan="99">No results</td></tr>
+
+        </table>
+        
+        <mat-paginator [pageSizeOptions]="[10, 20]"
+                        [pageSize]="10"
+                        showFirstLastButtons 
+                        aria-label="Select page of periodic elements">
+        </mat-paginator>
+
+    </div>
+
+</div>

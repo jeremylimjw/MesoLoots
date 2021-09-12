@@ -1,0 +1,44 @@
+
+<h2 mat-dialog-title style="display: flex;">
+    {{ member.name }} 
+    <span class="gray" style="margin-left: auto;" matTooltip="Copy to clipboard" [cdkCopyToClipboard]="getTotalDistributableOf(member).toString()">{{ getTotalDistributableOf(member) | number: '1.0' }}</span>
+</h2>
+
+<mat-dialog-content [@.disabled]="disableAnimation">
+
+    <mat-accordion>
+
+        <mat-expansion-panel *ngFor="let lootMongoId of member.distributableLoots">
+
+            <mat-expansion-panel-header>
+
+                <mat-panel-title class="title img-with-text-container">
+                    <img [src]="items[getLoot(lootMongoId).itemId].iconUrl">
+                    <span class="text-overflow">{{ items[getLoot(lootMongoId).itemId].name }}</span>
+                </mat-panel-title>
+
+                <mat-panel-description>
+                    <span class="img-with-text-container">
+                        <img [src]="bosses[getLoot(lootMongoId).bossId].iconUrl" width="25" height="25">
+                        {{ bosses[getLoot(lootMongoId).bossId].name }}
+                    </span>
+
+                    <span style="color: rgba(0,0,0,.87);">{{ getLoot(lootMongoId).distributable | number: '1.0' }}</span>
+                </mat-panel-description>
+
+            </mat-expansion-panel-header>
+
+            <p>Dropped On: {{ getLoot(lootMongoId).droppedOn | date: 'd/M/yyyy' }}</p>
+            <p>Sold On: {{ getLoot(lootMongoId).soldOn | date: 'd/M/yyyy' }}</p>
+
+        </mat-expansion-panel>
+
+    </mat-accordion>
+
+    <span *ngIf="member.distributableLoots.length === 0">No items to claim.</span>
+    
+    <div class="claim-button-container">
+        <button mat-raised-button color="primary" (click)="claim()" [disabled]="member.distributableLoots.length === 0">Mark As Claimed</button>
+    </div>
+
+</mat-dialog-content>

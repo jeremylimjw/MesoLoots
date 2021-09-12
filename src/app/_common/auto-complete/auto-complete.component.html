@@ -1,0 +1,19 @@
+<mat-form-field [appearance]="appearance" [ngStyle]="style">
+    <mat-label>{{ label }}</mat-label>
+
+    <input matInput [formControl]="textInput" [placeholder]="placeholder" [matAutocomplete]="auto">
+    
+    <button matSuffix mat-icon-button type="button" (click)="textInput.setValue('')">
+        <mat-icon>close</mat-icon>
+    </button>
+    
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="handleOptionSelected($event.option.value)">
+
+        <mat-option *ngFor="let item of searchResults | async" [value]="item">
+            <img *ngIf="getImgSrc(item)" [src]="getImgSrc(item)">
+            {{ item[optionKey] }}<span style="font-size: 12px;" *ngIf="subtitleKey != null"> | {{ item[subtitleKey] }}</span>
+        </mat-option>
+
+    </mat-autocomplete>
+
+</mat-form-field>

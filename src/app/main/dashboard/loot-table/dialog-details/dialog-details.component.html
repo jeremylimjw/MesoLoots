@@ -1,0 +1,68 @@
+<h2 mat-dialog-title style="display: flex;">
+    <div class="img-with-text-container">
+        <img [src]="items[loot.itemId].iconUrl">
+        {{ items[loot.itemId].name }} 
+    </div>
+    <span class="gray" style="margin-left: auto;">{{ loot.droppedOn | dateAgo }}</span>
+</h2>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()" #myForm="ngForm">
+
+    <mat-dialog-content>
+
+        <!-- Date - Dropped On -->
+        <mat-form-field appearance="outline">
+            <mat-label>Dropped On</mat-label>
+            <input matInput [matDatepicker]="picker" [value]="loot.droppedOn" disabled>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <!-- Select - Boss Id -->
+        <mat-form-field appearance="outline">
+            <mat-label>Boss</mat-label>
+            <img matPrefix [src]="bosses[loot.bossId].iconUrl" style="margin-right: 5px; opacity: 0.3;">
+            <mat-select [value]="loot.bossId" disabled>
+                <mat-option *ngFor="let boss of bosses" [value]="boss.id">
+                    <div class="img-with-text-container"><img [src]="boss.iconUrl" width="25" height="25">{{boss.name}}</div>
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <!-- Checkbox - Member Ids -->
+        <ng-container *ngIf="team.length !== 0">
+            <p style="font-weight: 500;">Party ({{ getSelectedMembers().length }} pax):</p>
+            <div class="team-form" formGroupName="memberIds" style="padding-bottom: 5px;">
+                <p *ngFor="let member of team">
+                    <mat-checkbox color="primary" [formControlName]="member._id">{{ member.name }}</mat-checkbox>
+                </p>
+            </div>
+        </ng-container>
+
+        <!-- Text - Sold Price -->
+        <mat-form-field appearance="outline" style="padding-bottom: 10px;">
+            <mat-label>Sold Price</mat-label>
+            <input matInput formControlName="soldPrice" placeholder="Try entering '1.2b' or '55m'" autocomplete="off">
+            <mat-icon matSuffix class="check-icon" *ngIf="form.controls.soldPrice.value | metric">check</mat-icon>
+            <mat-hint>{{ (form.controls.soldPrice.value | metric | number: '1.0') || 0 }} mesos</mat-hint>
+        </mat-form-field>
+
+        <mat-error class="custom-error" *ngIf="myForm.submitted && !(form.controls.soldPrice.value | metric)">
+            Sold price cannot be 0.
+        </mat-error>
+
+        <!-- Text - Distributable -->
+        <mat-form-field appearance="fill" style="padding-bottom: 10px; pointer-events: none;">
+            <mat-label>Distributable (-5% tax)</mat-label>
+            <input matInput [value]="((form.controls.soldPrice.value | metric | distributable: getSelectedMembers().length | number: '1.0') || 0) + ' mesos'" readonly>
+            <mat-hint>Auto-calculated based on total party members.</mat-hint>
+        </mat-form-field>
+
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="center" *ngIf="!loot.soldOn">
+        <button mat-stroked-button mat-dialog-close>Cancel</button>
+        <button mat-flat-button type="submit" [disabled]="submitting" color="accent">Mark As Sold</button>
+    </mat-dialog-actions>
+
+</form>

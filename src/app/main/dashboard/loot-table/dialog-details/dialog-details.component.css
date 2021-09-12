@@ -1,0 +1,18 @@
+.mat-form-field {
+    display: block;
+}
+
+.team-form {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-height: 120px;
+}
+
+.mat-hint {
+    font-size: 12px;
+}
+
+.check-icon {
+    color: green;
+}
