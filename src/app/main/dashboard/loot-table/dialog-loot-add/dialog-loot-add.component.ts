@@ -8,9 +8,9 @@ import { LootApiService } from 'src/app/_services/loot-api.service';
 import { TeamApiService } from 'src/app/_services/team-api.service';
 
 @Component({
-  selector: 'app-dialog-add',
-  templateUrl: './dialog-add.component.html',
-  styleUrls: ['./dialog-add.component.css']
+  selector: 'app-dialog-loot-add',
+  templateUrl: './dialog-loot-add.component.html',
+  styleUrls: ['./dialog-loot-add.component.css']
 })
 export class DialogAddComponent implements OnInit {
 

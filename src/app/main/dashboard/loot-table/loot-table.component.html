@@ -101,7 +101,7 @@
         
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;" 
-                [ngClass]="{ 'deleting-row': deletingLootId === row._id }"
+                [ngClass]="{ 'deleting': deletingLootId === row._id }"
                 (click)="openDetailsDialog(row)"
                 (mouseenter)="row.showDeleteIcon = true" 
                 (mouseleave)="row.showDeleteIcon = false">

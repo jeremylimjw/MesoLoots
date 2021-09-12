@@ -25,8 +25,8 @@ export interface Loot {
     bossId: number;
     droppedOn: Date;
     soldOn?: Date;
-    soldPrice?: number;
-    distributable?: number;
+    soldPrice?: string;
+    distributable?: string;
     claimedOn?: Date;
 }
 

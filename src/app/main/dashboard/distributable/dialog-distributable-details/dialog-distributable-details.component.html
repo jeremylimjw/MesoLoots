@@ -38,7 +38,12 @@
     <span *ngIf="member.distributableLoots.length === 0">No items to claim.</span>
     
     <div class="claim-button-container">
-        <button mat-raised-button color="primary" (click)="claim()" [disabled]="member.distributableLoots.length === 0">Mark As Claimed</button>
+        <button mat-raised-button 
+            [color]="isConfirmed ? 'accent' : 'primary'" 
+            (click)="confirmClaim()" 
+            [disabled]="member.distributableLoots.length === 0">
+            {{ isConfirmed ? 'Confirm Mark As Claimed' : 'Mark As Claimed' }}
+        </button>
     </div>
 
 </mat-dialog-content>

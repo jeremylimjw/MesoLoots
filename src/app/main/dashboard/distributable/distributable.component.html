@@ -4,28 +4,32 @@
 
     <div class="flex-wrap">
 
-        <mat-card class="card" *ngFor="let member of team">
+        <ng-container *ngFor="let member of team">
 
-            <div class="line-1">
-                <span style="font-weight: 500;">{{ member.name }}</span>
+            <mat-card class="card" *ngIf="member.distributableLoots.length !== 0">
 
-                <span class="amount tooltip top" [cdkCopyToClipboard]="getTotalDistributableOf(member).toString()">
-                    {{ getTotalDistributableOf(member) | number: '1.0' }}
-                </span>
-            </div>
+                <div class="line-1" [ngClass]="{ 'deleting' : deletingId === member._id }">
+                    <span style="font-weight: 500;">{{ member.name }}</span>
 
-            <div class="line-2">
-                <span class="gray">Last Claimed: {{ member.lastClaimed ? (member.lastClaimed | date: 'd/M hh:MM a') : '-' }}</span>
-                <span class="link" (click)="viewDetails(member)">View Items</span>
-            </div>
+                    <span class="amount tooltip top" [cdkCopyToClipboard]="getTotalDistributableOf(member).toString()">
+                        {{ getTotalDistributableOf(member) | number: '1.0' }}
+                    </span>
+                </div>
 
-            <button class="claim-button" mat-flat-button color="primary" (click)="claim(member)">MARK AS CLAIMED</button>
+                <div class="line-2" [ngClass]="{ 'deleting' : deletingId === member._id }">
+                    <span class="gray">Last Claimed: {{ member.lastClaimed ? (member.lastClaimed | date: 'd/M hh:MM a') : '-' }}</span>
+                    <span class="link" (click)="viewDetails(member)">View Items</span>
+                </div>
+
+                <button class="claim-button" mat-flat-button color="primary" (click)="confirmClaim(member)" [disabled]="deletingId === member._id">MARK AS CLAIMED</button>
+                
+            </mat-card>
             
-        </mat-card>
-
+        </ng-container>
 
     </div>
     
     <p style="margin: 20px 0 0 20px;" *ngIf="team.length === 0">You have no team</p>
+    <p style="margin: 20px 0 0 20px;" *ngIf="team.length > 0 && !hasAnyDistributables()">Nothing to distribute</p>
 
 </div>

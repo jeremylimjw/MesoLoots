@@ -109,6 +109,31 @@ export class LootApiService {
     })
   }
 
+  claimLoot(member: Member): Observable<any> {
+    const pageId = this.pageApi.getPageId();
+
+    return new Observable(observer => {
+
+      this.http.post(`${environment.baseUrl}/loot/claim`, { pageId: pageId, memberId: member._id })
+        .pipe(catchError(handleError))
+        .subscribe(
+          () => {
+            member.claimedLoots = member.claimedLoots.concat(member.distributableLoots);
+            member.distributableLoots = [];
+            
+            this.snackBar.open(`${member.name} loots has been distributed.`);
+            observer.next();
+            observer.complete();
+          },
+          err => {
+            this.snackBar.open(err);
+            observer.error(err);
+          }
+        )
+
+    })
+  }
+
   deleteLoot(loot: Loot): Observable<any> {
     const body = {
       pageId: this.pageApi.getPageId(),
@@ -146,7 +171,7 @@ export class LootApiService {
 
   /** Add loot id to member's claimedLoots. */
   addToDistributable(member: MongoId, loot: Loot): void {
-    this.pageApi.getPage()?.team.find(m => member._id === m._id)?.claimedLoots?.push({ _id: loot._id! });
+    this.pageApi.getPage()?.team.find(m => member._id === m._id)?.distributableLoots?.push({ _id: loot._id! });
   }
 
   /** Remove loot id from member distributables if present. */
