@@ -39,7 +39,7 @@ export class TopBarComponent implements OnInit {
   }
 
   get url(): string {
-    return `${location.origin}/${this.page?.name}`;
+    return window.location.href;
   }
 
 }

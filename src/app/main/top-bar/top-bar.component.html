@@ -6,11 +6,14 @@
     </div>
 
     <mat-form-field appearance="outline" class="input-field">
+
         <mat-label>Share link with others</mat-label>
         <input matInput type="text" [value]="url" readonly>
-        <button matSuffix mat-icon-button matTooltip="Copy to clipboard" [cdkCopyToClipboard]="url">
+
+        <button matSuffix mat-icon-button [cdkCopyToClipboard]="url" class="tooltip no-padding top">
             <mat-icon>content_copy</mat-icon>
         </button>
+
     </mat-form-field>
 
     <nav class="tab-group" mat-tab-nav-bar mat-align-tabs="center">

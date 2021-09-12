@@ -17,10 +17,6 @@
     height: 42px;
 }
 
-.item-card .name {
-    margin-left: 20px;
-}
-
 .item-card .pax {
     color: rgba(0,0,0,.54);
     margin-right: 20px;

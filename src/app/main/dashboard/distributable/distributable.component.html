@@ -9,7 +9,7 @@
             <div class="line-1">
                 <span style="font-weight: 500;">{{ member.name }}</span>
 
-                <span class="amount" matTooltip="Copy to clipboard" [cdkCopyToClipboard]="getTotalDistributableOf(member).toString()">
+                <span class="amount tooltip top" [cdkCopyToClipboard]="getTotalDistributableOf(member).toString()">
                     {{ getTotalDistributableOf(member) | number: '1.0' }}
                 </span>
             </div>

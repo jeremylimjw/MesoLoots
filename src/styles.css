@@ -5,23 +5,80 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .gray { color: #525252 }
 
+/** Align icon and text together. */
 .img-with-text-container {
     position: relative;
     display: flex; 
     align-items: center; 
 }
-
 .img-with-text-container img {
     margin-right: 5px;
 }
 
+/** For text containers with a fixed width to prevent overflowing. */
 .text-overflow {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
+/** Custom input validation message. */
 .custom-error {
     font-size: 75%;
     margin: -10px 0 10px 10px;
 }
+
+/** Tooltip */
+.tooltip {
+    position: relative;
+}
+
+.tooltip::after {
+    width: 140px;
+    background-color: rgb(70, 70, 70);
+    border-radius: 10px;
+    color: white;
+    display: none;
+    padding: 7px 0px;
+    position: absolute;
+    text-align: center;
+    z-index: 999;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.no-padding.tooltip::after {
+    padding: 0;
+}
+
+.tooltip.top::after {
+    content: 'Copy to clipboard';
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, calc(-100% - 10px));
+}
+
+.tooltip:hover::after {
+    display: block;
+}
+
+.tooltip::before {
+    background-color: rgb(70, 70, 70);
+    content: ' ';
+    display: none;
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    z-index: 999;
+}
+
+.tooltip:hover::before {
+    display: block;
+}
+
+.tooltip.top::before {
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, calc(-100% - 5px)) rotate(45deg);
+}
+
