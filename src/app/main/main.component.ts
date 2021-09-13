@@ -9,7 +9,7 @@ import { PageApiService } from '../_services/page-api.service';
       <app-landing-page></app-landing-page>
     </ng-container>
 
-    <mat-spinner style="top:50%; left: 50%;" *ngIf="loading && pageName"></mat-spinner>
+    <app-loading *ngIf="loading && pageName"></app-loading>
 
     <ng-container *ngIf="!loading && pageName">
       <app-top-bar></app-top-bar>

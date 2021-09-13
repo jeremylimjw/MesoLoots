@@ -22,7 +22,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core'
 import { MatRadioModule } from '@angular/material/radio';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 
 
@@ -47,6 +46,7 @@ import { MainComponent } from './main/main.component';
 import { AutoCompleteComponent } from './_common/auto-complete/auto-complete.component';
 import { LandingPageComponent } from './main/landing-page/landing-page.component';
 import { DialogAddPageComponent } from './main/landing-page/dialog-add-page/dialog-add-page.component';
+import { LoadingComponent } from './main/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +68,8 @@ import { DialogAddPageComponent } from './main/landing-page/dialog-add-page/dial
     MainComponent,
     AutoCompleteComponent,
     LandingPageComponent,
-    DialogAddPageComponent
+    DialogAddPageComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,
@@ -96,7 +97,6 @@ import { DialogAddPageComponent } from './main/landing-page/dialog-add-page/dial
     MatDatepickerModule,
     MatNativeDateModule,
     MatRadioModule,
-    MatProgressSpinnerModule,
     MatCardModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
