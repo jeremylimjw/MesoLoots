@@ -4,12 +4,15 @@
     flex-wrap: wrap;
 }
 
+.mat-card {
+    padding: 0;
+}
+
 .card {
     position: relative;
     width: 250px;
     height: 300px;
     margin: 20px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .card:hover .delete {
@@ -38,7 +41,6 @@
     justify-content: center;
     align-items: center;
     height: 50px;
-    background-color: white;
     font-weight: 500;
     font-size: 18px;
 }

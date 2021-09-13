@@ -46,7 +46,7 @@ table {
 .showImageOnHover-container {
     position: absolute;
     z-index: 2;
-    top: -400px;
+    bottom: 0;
     left: 50px;
 }
 

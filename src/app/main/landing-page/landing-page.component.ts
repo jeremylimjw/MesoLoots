@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPageComponent } from './dialog-add-page/dialog-add-page.component';
 
@@ -9,6 +10,8 @@ import { DialogAddPageComponent } from './dialog-add-page/dialog-add-page.compon
 })
 export class LandingPageComponent implements OnInit {
 
+  form: FormGroup = new FormGroup({ pageName: new FormControl('') });
+
   constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -16,6 +19,14 @@ export class LandingPageComponent implements OnInit {
 
   openDialog(): void {
     this.dialog.open(DialogAddPageComponent, { width: '500px' });
+  }
+
+  submitForm(): void {
+    if (this.form.controls.pageName.value == '') {
+      return;
+    }
+
+    window.location.href = "/" + this.form.controls.pageName.value;
   }
 
 }

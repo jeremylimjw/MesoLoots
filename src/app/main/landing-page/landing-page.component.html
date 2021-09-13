@@ -8,8 +8,25 @@
         <div class="slogan">A Free MapleStory Loot Tracker</div>
     </div>
 
-    <div style="margin-bottom: 30px; text-align: center;">
-        <button mat-flat-button color="primary" (click)="openDialog()">Create a Page</button>
+    <div class="button-group">
+        <button mat-flat-button color="accent" (click)="openDialog()">Create a Page</button> 
+        
+        <span style="margin: 10px;">or</span>
+        
+        <form [formGroup]="form" (ngSubmit)="submitForm()">
+
+            <mat-form-field appearance="fill" style="width: 170px;">
+                <mat-label>Visit Page</mat-label>
+                <input matInput type="text" autocomplete="off" formControlName="pageName" placeholder="Page Name">
+
+                <button matSuffix mat-icon-button type="submit">
+                    <mat-icon color="primary">arrow_forward</mat-icon>
+                </button>
+
+            </mat-form-field>
+            
+        </form>
+        
     </div>
 
     <div class="preview-container">

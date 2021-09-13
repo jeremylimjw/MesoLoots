@@ -24,6 +24,13 @@
     color: #4078bc;
 }
 
+.button-group {
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    margin-bottom: 30px; 
+}
+
 .preview-container {
     margin-bottom: 50px;
     text-align: center;
@@ -41,4 +48,8 @@
 
 .footer a {
     color: blue;
+}
+
+:host ::ng-deep .mat-form-field-wrapper {
+    margin-top: 1em;
 }

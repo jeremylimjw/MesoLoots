@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, Input, ElementRef } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Boss, Item, Loot, Member } from 'src/app/_models';
@@ -25,6 +25,7 @@ export class LootTableComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild('bottom') scrollToBottomRef!: ElementRef;
   dataSource = this.lootApi.lootTableDataSource;
   displayedColumns: string[] = ['delete', 'droppedOn', 'item', 'boss', 'soldPrice', 'distributable', 'soldOn'];
 
@@ -160,6 +161,12 @@ export class LootTableComponent implements OnInit, AfterViewInit {
 
   autoCompleteGetImgSrc(item: any): string {
     return item.iconUrl;
+  }
+
+  scrollToBottom(): void {
+    setTimeout(() => {
+      this.scrollToBottomRef.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+    }, 10)
   }
 
 }

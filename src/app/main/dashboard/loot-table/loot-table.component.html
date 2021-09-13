@@ -114,9 +114,13 @@
         <mat-paginator [pageSizeOptions]="[10, 20]"
                         [pageSize]="10"
                         showFirstLastButtons 
+                        (page)="scrollToBottom()"
                         aria-label="Select page of periodic elements">
         </mat-paginator>
+
 
     </div>
 
 </div>
+
+<div #bottom></div>

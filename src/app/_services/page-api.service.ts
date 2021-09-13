@@ -28,53 +28,46 @@ export class PageApiService {
 
     return new Observable(observer => {
 
-      this.httpGetPageByName(name).subscribe(
-        newPage => {
-          if (Object.keys(newPage).length === 0) {
-            this.snackBar.open(`${name} does not exist.`);
-            observer.error(`${name} does not exist.`)
-          } else {
-            this.page = newPage;
-            observer.next()
-            observer.complete();
+      this.http.get(`${environment.baseUrl}/page?name=${name}`)
+        .pipe(catchError(handleError))
+        .subscribe(
+          newPage => {
+            if (Object.keys(newPage).length === 0) {
+              this.snackBar.open(`${name} does not exist.`);
+              observer.error(`${name} does not exist.`)
+            } else {
+              this.page = newPage as Page;
+              observer.next()
+              observer.complete();
+            }
+            this.isLoading = false;
+          },
+          err => {
+            this.snackBar.open(err);
+            observer.error(err);
+            this.isLoading = false;
           }
-          this.isLoading = false;
-        },
-        err => {
-          this.snackBar.open(err);
-          observer.error(err);
-          this.isLoading = false;
-        }
-      )
+        )
 
     })
-  }
-
-  private httpGetPageByName(name: string): Observable<any> {
-    return this.http.get(`${environment.baseUrl}/page?name=${name}`)
-      .pipe(catchError(handleError));
   }
 
   createPage(page: PostPage): Observable<any> {
     return new Observable(observer => {
 
-      this.httpPostPage(page).subscribe(
-        result => {
-          observer.next(result);
-          observer.complete();
-        },
-        err => {
-          this.snackBar.open(err);
-          observer.error(err);
-        }
-      )
+      this.http.post(`${environment.baseUrl}/page`, page)
+        .pipe(catchError(handleError)).subscribe(
+          result => {
+            observer.next(result);
+            observer.complete();
+          },
+          err => {
+            this.snackBar.open(err);
+            observer.error(err);
+          }
+        )
 
     })
-  }
-
-  private httpPostPage(page: PostPage): Observable<any> {
-    return this.http.post(`${environment.baseUrl}/page`, page)
-      .pipe(catchError(handleError));
   }
 
   getPage(): Page | null {

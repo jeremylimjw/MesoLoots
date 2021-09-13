@@ -1,11 +1,11 @@
 <div class="container">
 
-    <div class="card" *ngFor="let member of team" [ngClass]="{ 'deleting' : member._id === deletingId }">
+    <mat-card class="card" *ngFor="let member of team" [ngClass]="{ 'deleting' : member._id === deletingId }">
 
         <img [src]="getJob(member).imageUrl" width="250" height="250">
 
         <div class="name">
-            <span>{{ member.name }}</span>
+            <div>{{ member.name }}</div>
         </div>
 
         <div class="delete">
@@ -14,7 +14,7 @@
             </button>
         </div>
 
-    </div>
+    </mat-card>
 
     <div class="card add" (click)="openAddDialog()">
         <span style="user-select: none;">+</span>
