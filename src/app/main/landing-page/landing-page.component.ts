@@ -26,7 +26,7 @@ export class LandingPageComponent implements OnInit {
       return;
     }
 
-    window.location.href = "/" + this.form.controls.pageName.value;
+    window.location.href += this.form.controls.pageName.value;
   }
 
 }
