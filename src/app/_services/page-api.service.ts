@@ -30,23 +30,18 @@ export class PageApiService {
 
       this.httpGetPageByName(name).subscribe(
         newPage => {
-
-          /** TEMPORARY TO SIMULATE LAG */
-          // setTimeout(() =>  {
-
-            if (Object.keys(newPage).length === 0) {
-              this.snackBar.open(`${name} does not exist.`);
-              observer.error(`${name} does not exist.`)
-            } else {
-              this.page = newPage;
-              observer.next()
-              observer.complete();
-            }
-            this.isLoading = false;
-
-          // }, 5000)
+          if (Object.keys(newPage).length === 0) {
+            this.snackBar.open(`${name} does not exist.`);
+            observer.error(`${name} does not exist.`)
+          } else {
+            this.page = newPage;
+            observer.next()
+            observer.complete();
+          }
+          this.isLoading = false;
         },
         err => {
+          this.snackBar.open(err);
           observer.error(err);
           this.isLoading = false;
         }
