@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, Input, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, Input, ElementRef, OnDestroy } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Boss, Item, Loot, Member } from 'src/app/_models';
@@ -12,13 +12,14 @@ import { LootApiService } from 'src/app/_services/loot-api.service';
 import { bosses, items } from 'src/app/_db';
 import { PageApiService } from 'src/app/_services/page-api.service';
 import { debounceTime } from 'rxjs/operators';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-loot-table',
   templateUrl: './loot-table.component.html',
   styleUrls: ['./loot-table.component.css']
 })
-export class LootTableComponent implements OnInit, AfterViewInit {
+export class LootTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   items: Item[] = items;
   bosses: Boss[] = bosses;
@@ -167,6 +168,10 @@ export class LootTableComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.scrollToBottomRef.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
     }, 10)
+  }
+
+  ngOnDestroy(): void {
+    this.lootApi.resetLootTableDataSource();
   }
 
 }

@@ -39,7 +39,7 @@ export class DialogDetailsComponent implements OnInit {
 
       /** Check all involved party members. */
       for (let member of this.team) {
-        this.memberIds.addControl(member._id, new FormControl({ value: loot.party.some(x => x._id === member._id), disabled: true }));
+        this.memberIds.addControl(member._id, new FormControl({ value: this.isMemberInvolved(member), disabled: true }));
       }
 
   }
@@ -89,5 +89,9 @@ export class DialogDetailsComponent implements OnInit {
       }
     }
     return party;
+  }
+
+  isMemberInvolved(member: Member): boolean {
+    return this.loot.party.some(x => x._id === member._id);
   }
 }

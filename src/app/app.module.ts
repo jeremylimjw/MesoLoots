@@ -47,6 +47,7 @@ import { AutoCompleteComponent } from './_common/auto-complete/auto-complete.com
 import { LandingPageComponent } from './main/landing-page/landing-page.component';
 import { DialogAddPageComponent } from './main/landing-page/dialog-add-page/dialog-add-page.component';
 import { LoadingComponent } from './main/loading/loading.component';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { LoadingComponent } from './main/loading/loading.component';
     AutoCompleteComponent,
     LandingPageComponent,
     DialogAddPageComponent,
-    LoadingComponent
+    LoadingComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,

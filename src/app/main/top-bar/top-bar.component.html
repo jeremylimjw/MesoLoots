@@ -16,8 +16,16 @@
 
     </mat-form-field>
 
-    <nav class="tab-group" mat-tab-nav-bar mat-align-tabs="center">
-        <a mat-tab-link *ngFor="let link of navLinks" [routerLink]="link.link" [active]="isActive(link.link)"> {{link.label}} </a>
-    </nav>
+    <div class="tab-group">
+
+        <nav mat-tab-nav-bar [disablePagination]="true">
+            <a mat-tab-link *ngFor="let link of navLinks" [routerLink]="link.link" [active]="isActive(link.link)"> {{link.label}} </a>
+        </nav>
+    
+        <!-- <nav mat-tab-nav-bar style="margin-left:auto;" [disablePagination]="true">
+            <a mat-tab-link routerLink="./settings" [active]="isActive('./settings')"> Page Settings </a>
+        </nav> -->
+
+    </div>
     
 </div>
