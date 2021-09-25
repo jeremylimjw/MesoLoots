@@ -1,20 +1,24 @@
 <div class="container">
 
-    <mat-card class="card" *ngFor="let member of team" [ngClass]="{ 'deleting' : member._id === deletingId }">
+    <ng-container *ngFor="let member of team">
 
-        <img [src]="getJob(member).imageUrl" width="250" height="250">
+        <mat-card class="card" [ngClass]="{ 'deleting' : member._id === deletingId }" *ngIf="!member.isDeleted">
 
-        <div class="name">
-            <div>{{ member.name }}</div>
-        </div>
+                <img [src]="getJob(member).imageUrl" width="250" height="250">
 
-        <div class="delete">
-            <button mat-raised-button color="warn" (click)="deleteMember(member)" [disabled]="member._id === deletingId">
-                Remove
-            </button>
-        </div>
+                <div class="name">
+                    <div>{{ member.name }}</div>
+                </div>
+        
+                <div class="delete">
+                    <button mat-raised-button color="warn" (click)="deleteMember(member)" [disabled]="member._id === deletingId">
+                        Remove
+                    </button>
+                </div>
 
-    </mat-card>
+        </mat-card>
+
+    </ng-container>
 
     <div class="card add" (click)="openAddDialog()">
         <span style="user-select: none;">+</span>

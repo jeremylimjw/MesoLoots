@@ -200,5 +200,9 @@ export class LootApiService {
       }
     }
   }
+
+  resetLootTableDataSource(): void {
+    this.lootTableDataSource = new MatTableDataSource<Loot>();
+  }
   
 }

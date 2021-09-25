@@ -33,9 +33,11 @@
         <ng-container *ngIf="team.length !== 0">
             <p style="font-weight: 500;">Party ({{ getSelectedMembers().length }} pax):</p>
             <div class="team-form" formGroupName="memberIds" style="padding-bottom: 5px;">
-                <p *ngFor="let member of team">
-                    <mat-checkbox color="primary" [formControlName]="member._id">{{ member.name }}</mat-checkbox>
-                </p>
+                <ng-container *ngFor="let member of team">
+                    <p *ngIf="!member.isDeleted || isMemberInvolved(member)">
+                        <mat-checkbox color="primary" [formControlName]="member._id">{{ member.name }}</mat-checkbox>
+                    </p>
+                </ng-container>
             </div>
         </ng-container>
 

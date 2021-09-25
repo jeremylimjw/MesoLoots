@@ -16,6 +16,7 @@ export interface Member {
     jobId: number;
     createdOn: Date;
     lastClaimed?: Date;
+    isDeleted: boolean;
 }
 
 export interface Loot {

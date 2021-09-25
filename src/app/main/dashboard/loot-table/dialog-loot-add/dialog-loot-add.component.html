@@ -32,9 +32,11 @@
         <ng-container *ngIf="team.length !== 0">
             <p style="font-weight: 500;">Party ({{ getSelectedMembers().length }} pax):</p>
             <div class="team-form" formGroupName="memberIds">
-                <p *ngFor="let member of team" style="padding-bottom: 5px;">
-                    <mat-checkbox color="primary" [formControlName]="member._id">{{ member.name }}</mat-checkbox>
-                </p>
+                <ng-container *ngFor="let member of team">
+                    <p style="padding-bottom: 5px;" *ngIf="!member.isDeleted">
+                        <mat-checkbox color="primary" [formControlName]="member._id">{{ member.name }}</mat-checkbox>
+                    </p>
+                </ng-container>
             </div>
         </ng-container>
 
@@ -53,6 +55,8 @@
 
         <!-- Item List -->
         <mat-card *ngFor="let loot of form.controls.loots.value; let i=index" class="item-card">
+
+            <span style="margin: 0 20px 0 10px;">{{ loot.droppedOn | date: 'd/M' }}</span>
 
             <div class="img-with-text-container" style="width: 220px;">
                 <img [src]="items[loot.itemId].iconUrl">

@@ -56,7 +56,7 @@ export class TeamApiService {
         .pipe(catchError(handleError))
         .subscribe(
           result  => {
-            this.team.splice(this.team.indexOf(member), 1);
+            member.isDeleted = true;
             this.snackBar.open("Member successfully removed.");
             observer.next(result);
             observer.complete();
