@@ -48,6 +48,7 @@ import { LandingPageComponent } from './main/landing-page/landing-page.component
 import { DialogAddPageComponent } from './main/landing-page/dialog-add-page/dialog-add-page.component';
 import { LoadingComponent } from './main/loading/loading.component';
 import { SettingsComponent } from './settings/settings.component';
+import { DialogLoginComponent } from './main/top-bar/dialog-login/dialog-login.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { SettingsComponent } from './settings/settings.component';
     LandingPageComponent,
     DialogAddPageComponent,
     LoadingComponent,
-    SettingsComponent
+    SettingsComponent,
+    DialogLoginComponent
   ],
   imports: [
     BrowserModule,

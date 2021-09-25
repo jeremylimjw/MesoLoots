@@ -1,7 +1,7 @@
 <div class="container">
 
     <div class="title">
-        <mat-icon class="lock-icon" matTooltip="Private access rights" *ngIf="page?.private">lock</mat-icon>
+        <mat-icon style="color:#2c3e51" *ngIf="page?.private">lock</mat-icon>
         <span>MesoLoots</span>
     </div>
 
@@ -22,9 +22,15 @@
             <a mat-tab-link *ngFor="let link of navLinks" [routerLink]="link.link" [active]="isActive(link.link)"> {{link.label}} </a>
         </nav>
     
-        <!-- <nav mat-tab-nav-bar style="margin-left:auto;" [disablePagination]="true">
-            <a mat-tab-link routerLink="./settings" [active]="isActive('./settings')"> Page Settings </a>
-        </nav> -->
+        <nav mat-tab-nav-bar style="position: absolute; right: 0; top: 0;" [disablePagination]="true">
+            <ng-container *ngIf="page?.private && !loginService.isLoggedIn">
+                <a mat-tab-link (click)="openLoginDialog()"><mat-icon style="color:#2c3e51">lock</mat-icon>&nbsp;Unlock</a>
+            </ng-container>
+
+            <ng-container *ngIf="!page?.private || loginService.isLoggedIn">
+                <a mat-tab-link routerLink="./settings" [active]="isActive('./settings')">Page Settings</a>
+            </ng-container>
+        </nav>
 
     </div>
     
