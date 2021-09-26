@@ -54,7 +54,7 @@ export class DialogDetailsComponent implements OnInit {
 
     const soldPrice: number = new MetricPipe().transform(this.form.controls.soldPrice.value);
 
-    if (!soldPrice || soldPrice <= 0) {
+    if (soldPrice == null || soldPrice < 0) {
       return;
     }
 

@@ -49,10 +49,6 @@
             <mat-hint>{{ (form.controls.soldPrice.value | metric | number: '1.0') || 0 }} mesos</mat-hint>
         </mat-form-field>
 
-        <mat-error class="custom-error" *ngIf="myForm.submitted && !(form.controls.soldPrice.value | metric)">
-            Sold price cannot be 0.
-        </mat-error>
-
         <mat-error class="custom-error" *ngIf="myForm.submitted && (form.controls.soldPrice.value | metric) < 0">
             Sold price cannot be negative.
         </mat-error>
