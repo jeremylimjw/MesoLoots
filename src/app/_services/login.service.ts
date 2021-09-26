@@ -43,15 +43,17 @@ export class LoginService {
 
     return new Observable(observer => {
 
-      this.http.post(`${environment.baseUrl}/auth`, body, { headers: { asd : 'qwe' } , withCredentials: true })
+      this.http.post(`${environment.baseUrl}/auth`, body, 
+      // { headers: { asd : 'qwe' } , withCredentials: true }
+      )
         .pipe(catchError(handleError))
         .subscribe(
           result => {
 
-            console.log('my cookies:')
-            console.log(this.getCookies())
+            // console.log('my cookies:')
+            // console.log(this.getCookies())
 
-            this.snackBar.open("Logged in successfully.");
+            // this.snackBar.open("Logged in successfully.");
             observer.next(result);
             observer.complete();
           },
