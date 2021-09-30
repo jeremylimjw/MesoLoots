@@ -5,6 +5,7 @@ import { bosses, items } from 'src/app/_db';
 import { Boss, Item, Loot, Member, MongoId } from 'src/app/_models';
 import { DistributablePipe } from 'src/app/_pipes/distributable.pipe';
 import { MetricPipe } from 'src/app/_pipes/metric.pipe';
+import { AuthService } from 'src/app/_services/auth.service';
 import { LootApiService, PostSellBody } from 'src/app/_services/loot-api.service';
 import { TeamApiService } from 'src/app/_services/team-api.service';
 
@@ -27,9 +28,10 @@ export class DialogDetailsComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public loot: Loot, 
     private teamApi: TeamApiService,
     private lootApi: LootApiService,
+    private authService: AuthService,
     public dialog: MatDialog) {
 
-      this.team = this.teamApi.team;
+      this.team = this.teamApi.team.filter(x => x.isDeleted === false);
 
       this.form = new FormGroup({
         memberIds: new FormGroup({}),
@@ -48,6 +50,10 @@ export class DialogDetailsComponent implements OnInit {
   }
 
   onSubmit(): void {
+    if (!this.authService.isAllowedToEdit()) {
+      return;
+    }
+
     if (this.form.invalid) {
       return;
     }
@@ -71,7 +77,12 @@ export class DialogDetailsComponent implements OnInit {
         this.submitting = false;
         this.dialogRef.close();
       },
-      err => this.submitting = false
+      err => {
+        if (err.status === 401) {
+          this.dialogRef.close();
+        }
+        this.submitting = false;
+      }
     )
 
   }

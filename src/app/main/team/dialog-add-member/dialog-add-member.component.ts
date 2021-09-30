@@ -45,6 +45,9 @@ export class DialogAddMemberComponent implements OnInit {
           this.dialogRef.close();
         },
         err => {
+          if (err.status === 401) {
+            this.dialogRef.close();
+          }
           this.submitting = false;
         }
       )

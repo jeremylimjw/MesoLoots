@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 import { handleError } from '../_common/httpErrorHandler';
 import { items } from '../_db';
 import { Loot, Member, MongoId } from '../_models';
+import { AuthService } from './auth.service';
 import { PageApiService } from './page-api.service';
 import { SnackBarService } from './snack-bar.service';
 
@@ -30,7 +31,8 @@ export class LootApiService {
   constructor(
     private http: HttpClient, 
     private pageApi: PageApiService, 
-    private snackBar: SnackBarService) {
+    private snackBar: SnackBarService,
+    private authService: AuthService) {
 
       /** Store mapping dictionary of loots. */
       for (let loot of this.loots) {
@@ -51,7 +53,9 @@ export class LootApiService {
 
     return new Observable(observer => {
 
-      this.http.post(`${environment.baseUrl}/loot`, body)
+      this.http.post(`${environment.baseUrl}/loot`, body,
+        { headers: { authorization: `Bearer ${this.authService.getHashedPassword()}` } }
+      )
         .pipe(catchError(handleError))
         .subscribe(
           newLoots => {
@@ -66,7 +70,12 @@ export class LootApiService {
             observer.complete();
           },
           err => {
-            this.snackBar.open(err);
+            if (err.status === 401) {
+              this.authService.removeCookie();
+              this.snackBar.open('Unauthorized. Password may have been changed. Logging out..');
+            } else {
+              this.snackBar.open(err);
+            }
             observer.error(err);
           }
         )
@@ -79,7 +88,9 @@ export class LootApiService {
 
     return new Observable(observer => {
 
-      this.http.post(`${environment.baseUrl}/loot/sell`, body)
+      this.http.post(`${environment.baseUrl}/loot/sell`, body,
+        { headers: { authorization: `Bearer ${this.authService.getHashedPassword()}` } }
+      )
         .pipe(catchError(handleError))
         .subscribe(
           result => {
@@ -101,7 +112,12 @@ export class LootApiService {
             observer.complete();
           },
           err => {
-            this.snackBar.open(err);
+            if (err.status === 401) {
+              this.authService.removeCookie();
+              this.snackBar.open('Unauthorized. Password may have been changed. Logging out..');
+            } else {
+              this.snackBar.open(err);
+            }
             observer.error(err);
           }
         )
@@ -114,7 +130,9 @@ export class LootApiService {
 
     return new Observable(observer => {
 
-      this.http.post(`${environment.baseUrl}/loot/claim`, { pageId: pageId, memberId: member._id })
+      this.http.post(`${environment.baseUrl}/loot/claim`, { pageId: pageId, memberId: member._id },
+        { headers: { authorization: `Bearer ${this.authService.getHashedPassword()}` } }
+      )
         .pipe(catchError(handleError))
         .subscribe(
           () => {
@@ -126,7 +144,12 @@ export class LootApiService {
             observer.complete();
           },
           err => {
-            this.snackBar.open(err);
+            if (err.status === 401) {
+              this.authService.removeCookie();
+              this.snackBar.open('Unauthorized. Password may have been changed. Logging out..');
+            } else {
+              this.snackBar.open(err);
+            }
             observer.error(err);
           }
         )
@@ -142,7 +165,9 @@ export class LootApiService {
 
     return new Observable(observer => {
 
-      this.http.delete(`${environment.baseUrl}/loot?pageId=${body.pageId}&lootId=${body.lootId}`)
+      this.http.delete(`${environment.baseUrl}/loot?pageId=${body.pageId}&lootId=${body.lootId}`,
+        { headers: { authorization: `Bearer ${this.authService.getHashedPassword()}` } }
+      )
         .pipe(catchError(handleError))
         .subscribe(
           result  => {
@@ -161,7 +186,12 @@ export class LootApiService {
             observer.complete();
           },
           err => {
-            this.snackBar.open(err);
+            if (err.status === 401) {
+              this.authService.removeCookie();
+              this.snackBar.open('Unauthorized. Password may have been changed. Logging out..');
+            } else {
+              this.snackBar.open(err);
+            }
             observer.error(err);
           }
         )

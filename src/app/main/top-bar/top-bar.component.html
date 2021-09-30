@@ -23,11 +23,11 @@
         </nav>
     
         <nav mat-tab-nav-bar style="position: absolute; right: 0; top: 0;" [disablePagination]="true">
-            <ng-container *ngIf="page?.private && !loginService.isLoggedIn">
+            <ng-container *ngIf="page?.private && !authService.getHashedPassword()">
                 <a mat-tab-link (click)="openLoginDialog()"><mat-icon style="color:#2c3e51">lock</mat-icon>&nbsp;Unlock</a>
             </ng-container>
 
-            <ng-container *ngIf="!page?.private || loginService.isLoggedIn">
+            <ng-container *ngIf="!page?.private || authService.getHashedPassword()">
                 <a mat-tab-link routerLink="./settings" [active]="isActive('./settings')">Page Settings</a>
             </ng-container>
         </nav>

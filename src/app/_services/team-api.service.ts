@@ -5,6 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { handleError } from '../_common/httpErrorHandler';
 import { Member } from '../_models';
+import { AuthService } from './auth.service';
 import { PageApiService } from './page-api.service';
 import { SnackBarService } from './snack-bar.service';
 
@@ -22,7 +23,8 @@ export class TeamApiService {
   constructor(
     private http: HttpClient, 
     private pageApi: PageApiService,
-    private snackBar: SnackBarService) { }
+    private snackBar: SnackBarService,
+    private authService: AuthService) { }
 
   get team(): Member[] {
     return this.pageApi.getPage()?.team || [];
@@ -31,7 +33,9 @@ export class TeamApiService {
   createMember(member: MemberPost): Observable<any> {
     return new Observable(observer => {
 
-      this.http.post(`${environment.baseUrl}/member`, member)
+      this.http.post(`${environment.baseUrl}/member`, member,
+        { headers: { authorization: `Bearer ${this.authService.getHashedPassword()}` } }
+      )
         .pipe(catchError(handleError))
         .subscribe(
           newMember => {
@@ -41,7 +45,12 @@ export class TeamApiService {
             observer.complete();
           },
           err => {
-            this.snackBar.open(err);
+            if (err.status === 401) {
+              this.authService.removeCookie();
+              this.snackBar.open('Unauthorized. Password may have been changed. Logging out..');
+            } else {
+              this.snackBar.open(err);
+            }
             observer.error(err);
           }
         )
@@ -52,7 +61,9 @@ export class TeamApiService {
   deleteMember(member: Member): Observable<any> {
     return new Observable(observer => {
 
-      this.http.delete(`${environment.baseUrl}/member?pageId=${this.pageApi.getPageId()}&memberId=${member._id}`)
+      this.http.delete(`${environment.baseUrl}/member?pageId=${this.pageApi.getPageId()}&memberId=${member._id}`,
+        { headers: { authorization: `Bearer ${this.authService.getHashedPassword()}` } }
+      )
         .pipe(catchError(handleError))
         .subscribe(
           result  => {
@@ -62,7 +73,12 @@ export class TeamApiService {
             observer.complete();
           },
           err => {
-            this.snackBar.open(err);
+            if (err.status === 401) {
+              this.authService.removeCookie();
+              this.snackBar.open('Unauthorized. Password may have been changed. Logging out..');
+            } else {
+              this.snackBar.open(err);
+            }
             observer.error(err);
           }
         )

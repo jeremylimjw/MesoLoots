@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/_common/dialog-confirm/dialog-confirm.component';
 import { Member } from 'src/app/_models';
+import { AuthService } from 'src/app/_services/auth.service';
 import { LootApiService } from 'src/app/_services/loot-api.service';
 import { TeamApiService } from 'src/app/_services/team-api.service';
 import { DialogViewAllComponent } from './dialog-distributable-details/dialog-distributable-details.component';
@@ -20,6 +21,7 @@ export class DistributableComponent implements OnInit {
   constructor(
     private teamApi: TeamApiService,
     private lootApi: LootApiService,
+    private authService: AuthService,
     public dialog: MatDialog,
     ) { }
 
@@ -72,6 +74,10 @@ export class DistributableComponent implements OnInit {
   }
 
   private claim(member: Member): void {
+    if (!this.authService.isAllowedToEdit()) {
+      return;
+    }
+
     this.deletingId = member._id;
     this.lootApi.claimLoot(member).subscribe(
       () => {

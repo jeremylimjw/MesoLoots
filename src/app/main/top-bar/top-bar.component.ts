@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoginService } from 'src/app/_services/login.service';
+import { AuthService } from 'src/app/_services/auth.service';
 import { Page } from '../../_models';
 import { PageApiService } from '../../_services/page-api.service';
 import { DialogLoginComponent } from './dialog-login/dialog-login.component';
@@ -32,7 +32,7 @@ export class TopBarComponent implements OnInit {
     private router: Router, 
     private activatedRoute: ActivatedRoute, 
     private pageApi: PageApiService,
-    public loginService: LoginService,
+    public authService: AuthService,
     public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -51,7 +51,7 @@ export class TopBarComponent implements OnInit {
   }
 
   openLoginDialog(): void {
-    const dialogRef = this.dialog.open(DialogLoginComponent);
+    const dialogRef = this.dialog.open(DialogLoginComponent, { width: '350px' });
   }
 
 }

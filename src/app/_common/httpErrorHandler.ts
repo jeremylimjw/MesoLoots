@@ -7,6 +7,9 @@ export function handleError(error: HttpErrorResponse) {
     if (error.status === 0) {
         errorMessage = "Error connecting to server. Server may be down.";
     }
+    else if (error.status === 401) {
+        return throwError(error);
+    }
     else if (error.error instanceof ErrorEvent) {		
         errorMessage = "An unknown error has occurred: " + error.error;
     } else {		

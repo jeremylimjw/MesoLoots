@@ -5,6 +5,7 @@ import { Job, Member } from '../../_models';
 import { jobs } from '../../_db/job';
 import { TeamApiService } from '../../_services/team-api.service';
 import { DialogAddMemberComponent } from './dialog-add-member/dialog-add-member.component';
+import { AuthService } from 'src/app/_services/auth.service';
 
 @Component({
   selector: 'app-team',
@@ -18,13 +19,18 @@ export class TeamComponent implements OnInit {
 
   constructor(
     private teamApi: TeamApiService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private authService: AuthService) { }
 
   ngOnInit(): void {
   }
 
   /** Delete member after confirmation dialog. */
   deleteMember(member: Member): void {
+    if (!this.authService.isAllowedToEdit()) {
+      return;
+    }
+
     const confirmDialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "400px",
       data: { title: `Remove ${member.name}`, message: "Are you sure? This action cannot be undone."}
@@ -49,6 +55,10 @@ export class TeamComponent implements OnInit {
 
   /** Open add new member dialog. */
   openAddDialog(): void {
+    if (!this.authService.isAllowedToEdit()) {
+      return;
+    }
+
     this.dialog.open(DialogAddMemberComponent, { width: '300px', data: this.team });
   }
 

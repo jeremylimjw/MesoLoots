@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/_services/auth.service';
 import { PageApiService } from 'src/app/_services/page-api.service';
 
 @Component({
@@ -20,7 +21,8 @@ export class DialogAddPageComponent implements OnInit {
   errorMessage: string = '';
 
   constructor(
-    private pageApi: PageApiService, 
+    private pageApi: PageApiService,
+    private authService: AuthService,
     private router: Router,
     public dialogRef: MatDialogRef<DialogAddPageComponent>) { }
 
@@ -44,6 +46,9 @@ export class DialogAddPageComponent implements OnInit {
       page => {
         this.submitting = false;
         this.dialogRef.close();
+        if (page.private) {
+          this.authService.setCookie(page._id, page.password);
+        }
         this.router.navigateByUrl(`/${page.name}/team`);
       },
       err => {
