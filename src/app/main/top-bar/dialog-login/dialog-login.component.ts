@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { LoginService } from 'src/app/_services/login.service';
+import { AuthService } from 'src/app/_services/auth.service';
 
 @Component({
   selector: 'app-dialog-login',
@@ -10,32 +10,33 @@ import { LoginService } from 'src/app/_services/login.service';
 })
 export class DialogLoginComponent implements OnInit {
 
-  password = new FormControl('', Validators.required);
+  form = new FormGroup({
+    password: new FormControl('', Validators.required)
+  });
   submitting: boolean = false;
 
   constructor(
-    private loginService: LoginService,
+    private authService: AuthService,
     public dialogRef: MatDialogRef<DialogLoginComponent>) { }
 
   ngOnInit(): void {
   }
 
   onSubmit(): void {
-    if (this.password.invalid) {
+    if (this.form.invalid) {
       return;
     }
 
-    this.loginService.login(this.password.value).subscribe(
+    this.authService.login(this.form.controls.password.value).subscribe(
       result => {
-        console.log('server responded w/ received cookies: ')
-        console.log(result)
+        this.dialogRef.close();
       },
       err => {
-        // if password mismatch
-        this.password.setErrors({ mismatch: true })
+        if (err.status === 401) {
+          this.form.controls.password.setErrors({ mismatch: true })
+        }
       }
     )
-    // this.dialogRef.close();
   }
 
 }

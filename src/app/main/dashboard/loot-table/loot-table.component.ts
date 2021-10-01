@@ -10,9 +10,8 @@ import { DialogAddComponent } from './dialog-loot-add/dialog-loot-add.component'
 import { ConfirmDialogComponent } from 'src/app/_common/dialog-confirm/dialog-confirm.component';
 import { LootApiService } from 'src/app/_services/loot-api.service';
 import { bosses, items } from 'src/app/_db';
-import { PageApiService } from 'src/app/_services/page-api.service';
 import { debounceTime } from 'rxjs/operators';
-import { MatTableDataSource } from '@angular/material/table';
+import { AuthService } from 'src/app/_services/auth.service';
 
 @Component({
   selector: 'app-loot-table',
@@ -38,6 +37,7 @@ export class LootTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private lootApi: LootApiService,
+    private authService: AuthService,
     private formBuilder: FormBuilder,
     public dialog: MatDialog) { }
 
@@ -121,6 +121,10 @@ export class LootTableComponent implements OnInit, AfterViewInit, OnDestroy {
   deleteItem(e: any, loot: Loot): void {
     e.stopPropagation();
     
+    if (!this.authService.isAllowedToEdit()) {
+      return;
+    }
+    
     const confirmDialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "400px",
       data: { title: `Remove ${items[loot.itemId].name}`, message: "Are you sure? This action cannot be undone."}
@@ -146,6 +150,10 @@ export class LootTableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openAddDialog(): void {
+    if (!this.authService.isAllowedToEdit()) {
+      return;
+    }
+
     this.dialog.open(DialogAddComponent, { 
       width: '600px',
       autoFocus: false 

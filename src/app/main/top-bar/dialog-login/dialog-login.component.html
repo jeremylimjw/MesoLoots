@@ -2,23 +2,27 @@
     Enter password
 </h2>
 
-<mat-dialog-content>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-    <!-- Password -->
-    <mat-form-field appearance="outline" style="display: block;">
-        <mat-label>Password</mat-label>
-        <input matInput [formControl]="password" type="password">
-        <mat-error *ngIf="password.errors?.required">
-            Password is <strong>required</strong>.
-        </mat-error>
-        <mat-error *ngIf="password.errors?.mismatch">
-            Incorrect password.
-        </mat-error>
-    </mat-form-field>
+    <mat-dialog-content>
 
-</mat-dialog-content>
+        <!-- Password -->
+        <mat-form-field appearance="outline" style="display: block;">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" type="password">
+            <mat-error *ngIf="form.controls.password.errors?.required">
+                Password is <strong>required</strong>.
+            </mat-error>
+            <mat-error *ngIf="form.controls.password.errors?.mismatch">
+                Incorrect password.
+            </mat-error>
+        </mat-form-field>
 
-<mat-dialog-actions align="end">
-    <button mat-stroked-button mat-dialog-close type="button">Close</button>
-    <button mat-flat-button color="accent" type="submit" [disabled]="submitting" (click)="onSubmit()">Login</button>
-</mat-dialog-actions>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-stroked-button mat-dialog-close type="button">Close</button>
+        <button mat-flat-button color="accent" type="submit" [disabled]="submitting" (click)="onSubmit()">Login</button>
+    </mat-dialog-actions>
+
+</form>

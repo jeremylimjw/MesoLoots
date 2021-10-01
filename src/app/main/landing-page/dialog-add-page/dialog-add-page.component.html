@@ -35,12 +35,13 @@
         </div>
 
         <!-- Text Input - Password -->
-        <mat-form-field appearance="outline" hintLabel="Password to access editing rights. You can set this at a later time.">
+        <mat-form-field appearance="outline">
             <mat-label>Page Password</mat-label>
-            <input matInput type="password" formControlName="password" autocomplete="on">
+            <input matInput type="text" formControlName="password" autocomplete="off">
             <mat-error *ngIf="form.controls.password.errors?.minlength || form.controls.password.errors?.maxlength">
                 Password must between <strong>6</strong> and <strong>32</strong> characters.
             </mat-error>
+            <mat-hint>Password to access editing rights. It is highly recommended to <strong>set one now</strong>. Otherwise, anyone with the page url can set a password anytime.</mat-hint>
         </mat-form-field>
 
     </mat-dialog-content>

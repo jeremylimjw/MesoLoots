@@ -5,6 +5,7 @@ import { bosses, items } from 'src/app/_db';
 import { Boss, Item, Loot, Member, MongoId } from 'src/app/_models';
 import { DistributablePipe } from 'src/app/_pipes/distributable.pipe';
 import { MetricPipe } from 'src/app/_pipes/metric.pipe';
+import { AuthService } from 'src/app/_services/auth.service';
 import { LootApiService, PostSellBody } from 'src/app/_services/loot-api.service';
 import { TeamApiService } from 'src/app/_services/team-api.service';
 
@@ -27,6 +28,7 @@ export class DialogDetailsComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public loot: Loot, 
     private teamApi: TeamApiService,
     private lootApi: LootApiService,
+    private authService: AuthService,
     public dialog: MatDialog) {
 
       this.team = this.teamApi.team;
@@ -38,8 +40,8 @@ export class DialogDetailsComponent implements OnInit {
       });
 
       /** Check all involved party members. */
-      for (let member of this.team) {
-        this.memberIds.addControl(member._id, new FormControl({ value: this.isMemberInvolved(member), disabled: true }));
+      for (let memberId of this.loot.party) {
+        this.memberIds.addControl(`${memberId._id}`, new FormControl({ value: true, disabled: true }));
       }
 
   }
@@ -48,6 +50,10 @@ export class DialogDetailsComponent implements OnInit {
   }
 
   onSubmit(): void {
+    if (!this.authService.isAllowedToEdit()) {
+      return;
+    }
+
     if (this.form.invalid) {
       return;
     }
@@ -71,13 +77,22 @@ export class DialogDetailsComponent implements OnInit {
         this.submitting = false;
         this.dialogRef.close();
       },
-      err => this.submitting = false
+      err => {
+        if (err.status === 401) {
+          this.dialogRef.close();
+        }
+        this.submitting = false;
+      }
     )
 
   }
 
   get memberIds(): FormGroup {
     return this.form.controls.memberIds as FormGroup;
+  }
+
+  get teamMapping(): { [key: string]: Member } {
+    return this.teamApi.teamMapping;
   }
 
   /** Get all selected members. */
@@ -89,9 +104,5 @@ export class DialogDetailsComponent implements OnInit {
       }
     }
     return party;
-  }
-
-  isMemberInvolved(member: Member): boolean {
-    return this.loot.party.some(x => x._id === member._id);
   }
 }

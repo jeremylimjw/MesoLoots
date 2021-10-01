@@ -30,16 +30,17 @@
         </mat-form-field>
 
         <!-- Checkbox - Member Ids -->
-        <ng-container *ngIf="team.length !== 0">
-            <p style="font-weight: 500;">Party ({{ getSelectedMembers().length }} pax):</p>
-            <div class="team-form" formGroupName="memberIds" style="padding-bottom: 5px;">
-                <ng-container *ngFor="let member of team">
-                    <p *ngIf="!member.isDeleted || isMemberInvolved(member)">
-                        <mat-checkbox color="primary" [formControlName]="member._id">{{ member.name }}</mat-checkbox>
-                    </p>
-                </ng-container>
-            </div>
-        </ng-container>
+        <p style="font-weight: 500;">Party ({{ getSelectedMembers().length }} pax):</p>
+        <div class="team-form" formGroupName="memberIds" style="padding-bottom: 5px;">
+            <ng-container *ngFor="let memberId of loot.party">
+                <p *ngIf="teamMapping[memberId._id]?.name">
+                    <mat-checkbox color="primary" [formControlName]="memberId._id">{{ teamMapping[memberId._id]?.name }}</mat-checkbox>
+                </p>
+                <p *ngIf="!teamMapping[memberId._id]?.name">
+                    <mat-checkbox color="primary" [formControlName]="memberId._id"><i>Removed Member</i></mat-checkbox>
+                </p>
+            </ng-container>
+        </div>
 
         <!-- Text - Sold Price -->
         <mat-form-field appearance="outline" style="padding-bottom: 10px;">
