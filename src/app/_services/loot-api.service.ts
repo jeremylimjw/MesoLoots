@@ -102,9 +102,11 @@ export class LootApiService {
             }
             this.lootTableDataSource.data = this.loots;
 
-            /** Add to member's distributable. */
-            for (let memberMongoId of newLoot.party) {
-              this.addToDistributable(memberMongoId, newLoot);
+            /** Add to member's distributable only if sold price is more than 0. */
+            if (newLoot.soldPrice && (+newLoot.soldPrice | 0) > 0) {
+              for (let memberMongoId of newLoot.party) {
+                this.addToDistributable(memberMongoId, newLoot);
+              }
             }
             
             this.snackBar.open(`${items[newLoot.itemId].name} successfully updated.`);
