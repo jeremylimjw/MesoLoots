@@ -31,7 +31,7 @@ export class DialogDetailsComponent implements OnInit {
     private authService: AuthService,
     public dialog: MatDialog) {
 
-      this.team = this.teamApi.team.filter(x => x.isDeleted === false);
+      this.team = this.teamApi.team;
 
       this.form = new FormGroup({
         memberIds: new FormGroup({}),
@@ -40,8 +40,8 @@ export class DialogDetailsComponent implements OnInit {
       });
 
       /** Check all involved party members. */
-      for (let member of this.team) {
-        this.memberIds.addControl(member._id, new FormControl({ value: this.isMemberInvolved(member), disabled: true }));
+      for (let memberId of this.loot.party) {
+        this.memberIds.addControl(`${memberId._id}`, new FormControl({ value: true, disabled: true }));
       }
 
   }
@@ -91,6 +91,10 @@ export class DialogDetailsComponent implements OnInit {
     return this.form.controls.memberIds as FormGroup;
   }
 
+  get teamMapping(): { [key: string]: Member } {
+    return this.teamApi.teamMapping;
+  }
+
   /** Get all selected members. */
   getSelectedMembers(): MongoId[] {
     const party = [];
@@ -100,9 +104,5 @@ export class DialogDetailsComponent implements OnInit {
       }
     }
     return party;
-  }
-
-  isMemberInvolved(member: Member): boolean {
-    return this.loot.party.some(x => x._id === member._id);
   }
 }

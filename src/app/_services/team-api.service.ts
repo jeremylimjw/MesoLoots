@@ -20,11 +20,19 @@ interface MemberPost {
 })
 export class TeamApiService {
 
+  teamMapping: { [key: string]: Member } = {};
+
   constructor(
     private http: HttpClient, 
     private pageApi: PageApiService,
     private snackBar: SnackBarService,
-    private authService: AuthService) { }
+    private authService: AuthService) { 
+
+      /** Store mapping dictionary of members. */
+      for (let member of this.team) {
+        this.teamMapping[member._id] = member;
+      }
+    }
 
   get team(): Member[] {
     return this.pageApi.getPage()?.team || [];
@@ -39,9 +47,11 @@ export class TeamApiService {
         .pipe(catchError(handleError))
         .subscribe(
           newMember => {
-            this.team.push(newMember as Member);
+            const member = newMember as Member;
+            this.team.push(member);
+            this.teamMapping[member._id!] = member; // Update team mapping.
             this.snackBar.open("Member successfully added.");
-            observer.next(newMember as Member);
+            observer.next(member);
             observer.complete();
           },
           err => {
@@ -67,7 +77,8 @@ export class TeamApiService {
         .pipe(catchError(handleError))
         .subscribe(
           result  => {
-            member.isDeleted = true;
+            this.team.splice(this.team.findIndex(x => x._id === member._id), 1);
+            delete this.teamMapping[member._id]; // Update team mapping.
             this.snackBar.open("Member successfully removed.");
             observer.next(result);
             observer.complete();

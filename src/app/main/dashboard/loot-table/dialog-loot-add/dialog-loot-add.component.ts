@@ -16,7 +16,7 @@ export class DialogAddComponent implements OnInit {
 
   items: Item[] = items;
   bosses: Boss[] = bosses;
-  team: Member[] = this.teamApi.team.filter(x => x.isDeleted === false);
+  team: Member[] = this.teamApi.team;
 
   form: FormGroup = new FormGroup({
     droppedOn: new FormControl(new Date(), Validators.required),
