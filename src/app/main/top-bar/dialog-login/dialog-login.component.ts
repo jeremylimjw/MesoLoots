@@ -27,14 +27,17 @@ export class DialogLoginComponent implements OnInit {
       return;
     }
 
+    this.submitting = true;
     this.authService.login(this.form.controls.password.value).subscribe(
       result => {
+        this.submitting = false;
         this.dialogRef.close();
       },
       err => {
         if (err.status === 401) {
           this.form.controls.password.setErrors({ mismatch: true })
         }
+        this.submitting = false;
       }
     )
   }

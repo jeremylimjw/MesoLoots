@@ -1,0 +1,25 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    align-items: center;
+}
+
+.mat-form-field {
+    display: block;
+}
+
+.card {
+    width: 700px;
+    margin-bottom: 20px;
+    padding: 30px;
+}
+
+.button-container {
+    width: 700px;
+    margin-bottom: 20px;
+}
+
+.mat-raised-button {
+    width: 100%;
+}

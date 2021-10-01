@@ -1,3 +1,68 @@
-<p>settings works!</p>
-<button mat-raised-button color="warn" (click)="deletePage()" [disabled]="submittingDelete"> {{ submittingDelete ? 'Deleting..' : 'Delete Page' }}</button>
-<button mat-raised-button color="accent" (click)="logout()">Logout</button>
+
+<div class="container">
+
+    <mat-card class="card">
+        <mat-card-title>Change Page Name</mat-card-title>
+
+
+        <!-- Text - Page Name -->
+        <mat-form-field appearance="outline">
+            <mat-label>New Page Name</mat-label>
+            <input matInput autocomplete="off">
+            <mat-icon matSuffix class="check-icon">check</mat-icon>
+            <mat-hint>Page name can be changed only once every 3 days.</mat-hint>
+            <!-- <mat-error *ngIf="form.controls.password.errors?.required">
+                Page name is required.
+            </mat-error> -->
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" (click)="WIP()">Change</button>
+        
+    </mat-card>
+
+    <mat-card class="card" *ngIf="page?.private">
+        <mat-card-title>Change Password</mat-card-title>
+
+
+        <!-- Text - Page Name -->
+        <mat-form-field appearance="outline">
+            <mat-label>New Password</mat-label>
+            <input matInput autocomplete="off">
+            <mat-icon matSuffix class="check-icon">check</mat-icon>
+            <mat-hint>Password can be changed only once every 3 days.</mat-hint>
+            <!-- <mat-error *ngIf="form.controls.password.errors?.required">
+                Page name is required.
+            </mat-error> -->
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" (click)="WIP()">Change</button>
+        
+    </mat-card>
+
+    <mat-card class="card" *ngIf="!page?.private">
+        <mat-card-title>Set Password</mat-card-title>
+
+
+        <!-- Text - Page Name -->
+        <mat-form-field appearance="outline">
+            <mat-label>New Password</mat-label>
+            <input matInput autocomplete="off">
+            <mat-icon matSuffix class="check-icon">check</mat-icon>
+            <!-- <mat-error *ngIf="form.controls.password.errors?.required">
+                Page name is required.
+            </mat-error> -->
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" (click)="WIP()">Change</button>
+        
+    </mat-card>
+
+    <div class="button-container">
+        <button mat-raised-button (click)="deletePage()" [disabled]="submittingDelete"> {{ submittingDelete ? 'Deleting..' : 'Delete Page' }}</button>
+    </div>
+
+    <div class="button-container" *ngIf="hashedPassword">
+        <button mat-raised-button color="accent" (click)="logout()">Logout</button>
+    </div>
+
+</div>
